@@ -23,20 +23,24 @@ def FFTtools_p2p_SNR(v):
         # analyzing from second bin
         if i > 0:
             if y < v[i-1] and trending == 0:
-                if np.abs(y - v[firstBin] > p2p):
+                #if np.abs(y - v[firstBin] > p2p):
+                if np.abs(y - v[firstBin]) > p2p:
                     p2p = np.abs(y - v[firstBin])
             elif y < v[i-1] and (trending == 1 or trending == 2):
                 trending = 0
                 firstBin = i-1
-                if np.abs(y - v[firstBin] > p2p):
+                #if np.abs(y - v[firstBin] > p2p):
+                if np.abs(y - v[firstBin]) > p2p:
                     p2p = np.abs(y - v[firstBin])
             elif y > v[i-1] and (trending == 0 or trending == 2):
                 trending = 1
                 firstBin = i-1
-                if np.abs(y - v[firstBin] > p2p):
+                #if np.abs(y - v[firstBin] > p2p):
+                if np.abs(y - v[firstBin]) > p2p:
                     p2p = np.abs(y - v[firstBin])
             elif y > v[i-1] and trending == 1:
-                if np.abs(y - v[firstBin] > p2p):
+                #if np.abs(y - v[firstBin] > p2p):
+                if np.abs(y - v[firstBin]) > p2p:
                     p2p = np.abs(y - v[firstBin])
             elif y == v[i-1]:
                 trending = 2
@@ -51,6 +55,8 @@ def FFTtools_p2p_SNR(v):
                 print("trending cock up!")
                 print('y',y,' v[i]',v[i],' v[i-1]',v[i-1])                
                 return -1
+
+            #print(p2p)
     
     del trending, firstBin, y
     
@@ -114,6 +120,8 @@ def py_p2p_SNR(v):
     
     #maximum p2p
     p2p = np.concatenate((p2p_1, p2p_2), axis=None)
+    #print(p2p)
+
     del p2p_1, p2p_2
     p2p_max = np.nanmax(p2p) / 2
 

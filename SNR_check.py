@@ -31,11 +31,14 @@ print('SNR from FFTtools:',snr_ffttools)
 # 2 SNR from python version of FFTtools(double check)
 snr_fft, p2p_fft, rms_fft = snr_def.FFTtools_p2p_SNR(wf[:,1])
 print('SNR from FFTtools(python version):',snr_fft)
+print('Maximum p2p:',p2p_fft)
+print('RMS:',rms_fft)
 
 # 3 SNR from scipy extrema method
 snr_py, p2p_py, rms_py = snr_def.py_p2p_SNR(wf[:,1])
 print('SNR from Extrema:',snr_py)
-
+print('Maximum p2p:',p2p_py)
+print('RMS:',rms_py)
 
 
 # plot in slack
