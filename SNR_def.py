@@ -65,8 +65,8 @@ def FFTtools_p2p_SNR(v):
     #return p2p / rms
    
     # for debug
-    p2p_max = p2p / 2.
-    return p2p_max/rms, p2p, rms
+    peak = p2p / 2.
+    return peak / rms, p2p, rms
 
 
 # python version of p2p snr calculator
@@ -92,7 +92,7 @@ def extrema_locator(v, comparator):
 
     return ex_peak, i_ex
 
-def py_p2p_SNR(v):
+def p2p_locator(v):
 
     # fine index value
     max_peak, max_peak_index = extrema_locator(v, np.greater_equal)
@@ -117,20 +117,27 @@ def py_p2p_SNR(v):
         p2p_1 = np.abs(max_peak - min_peak)
         p2p_2 = np.abs(max_peak[1:] - min_peak[:-1])
     del max_peak_index, min_peak_index, max_peak, min_peak
-    
-    #maximum p2p
-    p2p = np.concatenate((p2p_1, p2p_2), axis=None)
-    #print(p2p)
 
+    #maximum p2p
+    p2p = np.nanmax(np.concatenate((p2p_1, p2p_2), axis=None))
     del p2p_1, p2p_2
-    p2p_max = np.nanmax(p2p) / 2
+
+    return p2p
+
+def py_p2p_SNR(v):
+
+    # maximum p2p in the wf
+    p2p = p2p_locator(v)
 
     # sampling rms
     nRMS = 25
     rms = np.nanstd(v[:nRMS])
     del nRMS
 
-    return  p2p_max / rms, np.nanmax(p2p), rms
+    # snr
+    snr = (p2p / 2) / rms
+
+    return  snr, p2p, rms
 
 
 
